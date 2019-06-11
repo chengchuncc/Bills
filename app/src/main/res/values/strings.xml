@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">一账单</string>
+    <string name="rdo_home_label">首页</string>
+    <string name="rdo_func_label">功能</string>
+    <string name="choose_in">收入</string>
+    <string name="choose_out">支出</string>
+    <string name="rdo_me_label">我</string>
+</resources>

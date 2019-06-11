@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:orientation="vertical"
+    tools:context=".FrameActivity">
+
+    <fragment
+        android:id="@+id/fragment_main"
+        android:name="swufe.cc.com.bills.HomeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        />
+    <fragment
+        android:id="@+id/fragment_func"
+        android:name="swufe.cc.com.bills.FuncFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        />
+    <fragment
+        android:id="@+id/fragment_me"
+        android:name="swufe.cc.com.bills.MeFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        />
+
+    <RadioGroup
+        android:id="@+id/bottomGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/radioHome"
+            style="@style/rg_btn_style"
+            android:drawableTop="@drawable/home"
+            android:text="@string/rdo_home_label"
+            android:textSize="12sp"
+            android:background="@drawable/test"/>
+        <RadioButton
+            android:id="@+id/radioFunc"
+            style="@style/rg_btn_style"
+            android:drawableTop="@drawable/func"
+            android:text="@string/rdo_func_label"
+            android:textSize="12sp"
+            android:background="@drawable/test"/>
+        <RadioButton
+            android:id="@+id/radioMe"
+            style="@style/rg_btn_style"
+            android:drawableTop="@drawable/me"
+            android:text="@string/rdo_me_label"
+            android:textSize="12sp"
+            android:background="@drawable/test"/>
+    </RadioGroup>
+
+</LinearLayout>

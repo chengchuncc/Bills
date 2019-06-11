@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ONEbill</string>
+    <string name="rdo_home_label">HOME</string>
+    <string name="rdo_func_label">FUNC</string>
+    <string name="choose1">INCOME</string>
+    <string name="choose2">OUTCOME</string>
+    <string name="rdo_me_label">ME</string>
+</resources>
