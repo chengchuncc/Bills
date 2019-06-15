@@ -19,7 +19,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        TextView tv = (TextView)getView().findViewById(R.id.homeTextView1);
+        TextView tv = (TextView)getView().findViewById(R.id.itemDetailType);
         tv.setText("这是账户页面");
 
     }

@@ -21,7 +21,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE "+TB_NAME+"(ID TEXT PRIMARY KEY AUTOINCREMENT,INOROUT TEXT,TYPE TEXT,TIME TEXT,FEE TEXT,REMARKS TEXT)");
+        db.execSQL("CREATE TABLE "+TB_NAME+"(ID INTEGER PRIMARY KEY AUTOINCREMENT,INOROUT TEXT,TYPE TEXT,TIME TEXT,FEE TEXT,REMARKS TEXT)");
     }
 
     @Override
