@@ -1,11 +1,10 @@
 package swufe.cc.com.bills;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -66,6 +65,42 @@ public class FrameActivity extends FragmentActivity {
                 }
             }
         });
+    }
+
+    private void setDefaultFragment(Fragment fm) {
+        mFm = getSupportFragmentManager();
+        FragmentTransaction mFragmentTrans = mFm.beginTransaction();
+        mFragmentTrans.add(R.id.fragment_func, fm).commit();
+
+        mContent = fm;
+    }
+
+    private FragmentManager mFm;
+    private Fragment mContent;
+
+    /**
+     * 修改显示的内容 不会重新加载 *
+     */
+    public void switchContent(Fragment to) {
+        if (mContent != to) {
+            FragmentTransaction transaction = mFm.beginTransaction();
+            if (!to.isAdded()) { // 先判断是否被add过
+                transaction.hide(mContent).add(R.id.fragment_func, to).commit(); // 隐藏当前的fragment，add下一个到Activity中
+            } else {
+                transaction.hide(mContent).show(to).commit(); // 隐藏当前的fragment，显示下一个
+            }
+            mContent = to;
+        }
+    }
+
+    /**
+     * 修改显示的内容 但会重新加载 *
+     */
+    public void switchContent2(Fragment to){
+        FragmentTransaction transaction = mFm.beginTransaction();
+        transaction.replace(R.id.fragment_func,to);
+        //transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
 

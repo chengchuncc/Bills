@@ -6,7 +6,7 @@
     android:orientation="vertical" >
 
     <ListView
-        android:id="@+id/lv_bills"
+        android:id="@+id/bills"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ></ListView>

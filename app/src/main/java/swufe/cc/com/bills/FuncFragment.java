@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,8 +32,7 @@ public class FuncFragment extends Fragment {
     private EditText editTextRemarks;
     private Button btnSave;
     private static final String[] type={"衣","食","住","行","其他"};
-    private String inOrOut="";
-    private String content_type="";
+    private String inOrOut="",contentType="",time="",fee="",remarks="";
     private ArrayAdapter<String> adapter;
     private static final String[] data={"","","","",""};
     private String TAG = "FuncFragment";
@@ -60,33 +60,39 @@ public class FuncFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                data[0] = inOrOut;
-                data[1] = content_type;
-                data[2] = editTextTime.getText().toString();
-                data[3] = editTextFee.getText().toString();
-                data[4] = editTextRemarks.getText().toString();
-                Log.i(TAG, "inOrOut=" + inOrOut);
-                Log.i(TAG, "content_type=" + content_type);
-                Log.i(TAG, "editTextTime=" + editTextTime.getText().toString());
-                Log.i(TAG, "editTextFee=" + editTextFee.getText().toString());
-                Log.i(TAG, "editTextRemarks=" + editTextRemarks.getText().toString());
+                time=editTextTime.getText().toString();
+                fee=editTextFee.getText().toString();
+                remarks=editTextRemarks.getText().toString();
 
+                data[0] = inOrOut;
+                data[1] = contentType;
+                data[2] = time;
+                data[3] = fee;
+                data[4] = remarks;
 
                 final DataManager manager = new DataManager(getActivity());
 
-                if (data[0] == "" || data[1] == "" || data[2] == null || data[3] == null || data[4] == null) {
+                if (data[0] == "" || data[1] == "" || TextUtils.isEmpty(editTextTime.getText()) || TextUtils.isEmpty(editTextFee.getText()) || TextUtils.isEmpty(editTextRemarks.getText())) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("提示").setMessage("当前页面有信息未填写，是否继续保存？").setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Log.i(TAG, "onClick: 对话框事件处理");
+                            //上传数据到SQLite
                             manager.add(data);
+                            editTextTime.setText("");
+                            editTextFee.setText("");
+                            editTextRemarks.setText("");
                         }
                     }).setNegativeButton("否", null);
                     builder.create().show();
                 } else {
+                    //上传数据到SQLite
                     manager.add(data);
+                    editTextTime.setText("");
+                    editTextFee.setText("");
+                    editTextRemarks.setText("");
 
                 }
             }
@@ -157,7 +163,7 @@ public class FuncFragment extends Fragment {
 
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
                                    long arg3) {
-            content_type = mSpinner.getSelectedItem().toString();
+            contentType = mSpinner.getSelectedItem().toString();
         }
 
         public void onNothingSelected(AdapterView<?> arg0) {
