@@ -9,8 +9,8 @@
     tools:context=".FrameActivity">
 
     <fragment
-        android:id="@+id/fragment_main"
-        android:name="swufe.cc.com.bills.HomeFragment"
+        android:id="@+id/fragment_me"
+        android:name="swufe.cc.com.bills.MeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="10"
@@ -23,8 +23,8 @@
         android:layout_weight="10"
         />
     <fragment
-        android:id="@+id/fragment_me"
-        android:name="swufe.cc.com.bills.MeFragment"
+        android:id="@+id/fragment_home"
+        android:name="swufe.cc.com.bills.HomeFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="10"
@@ -36,6 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
         android:orientation="horizontal">
+
         <RadioButton
             android:id="@+id/radioHome"
             style="@style/rg_btn_style"
@@ -50,6 +51,8 @@
             android:text="@string/rdo_func_label"
             android:textSize="12sp"
             android:background="@drawable/test"/>
+
+
         <RadioButton
             android:id="@+id/radioMe"
             style="@style/rg_btn_style"

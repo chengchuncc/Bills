@@ -4,67 +4,41 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class MyAdapter extends BaseAdapter {
+public class MyAdapter extends ArrayAdapter{
+    private  static  final String TAG = "MyAdapter";
 
-    private Context context;
-    private ArrayList<DataItem> listData;
-
-
-    public MyAdapter(Context context,ArrayList<DataItem> listData) {
-        this.context = context;
-        this.listData = listData;
-
+    public MyAdapter(Context context, int resource, ArrayList<HashMap<String,String>> list) {
+        super(context, resource, list);
     }
 
     @Override
-    public int getCount() {
-        return listData.size();
-    }
-    @Override
-    public Object getItem(int pos) {
-        return listData.get(pos);
-    }
-    @Override
-    public long getItemId(int pos) {
-        return pos;
-    }
-
-    @Override
-    public View getView(int pos, View view, ViewGroup arg2) {
-        ViewHolder viewholder = null;
-        if(view == null){
-            LayoutInflater inflate=LayoutInflater.from(context);
-            view=inflate.inflate(R.layout.list_item,null);
-            viewholder = new ViewHolder();
-            viewholder.title= (TextView)view.findViewById(R.id.itemTitle);
-            viewholder.detailType = (TextView)view.findViewById(R.id.itemDetailType);
-            viewholder.detailTime = (TextView)view.findViewById(R.id.itemDetailTime);
-            viewholder.detailFee = (TextView)view.findViewById(R.id.itemDetailFee);
-            viewholder.detailRemarks = (TextView)view.findViewById(R.id.itemDetailRemarks);
-            view.setTag(viewholder);
+    public View getView(int position, View convertView, ViewGroup parent) {
+        View itemView = convertView;
+        if (itemView == null) {
+            itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
-        viewholder = (ViewHolder)view.getTag();
-        DataItem model = listData.get(pos);
-        viewholder.title.setText(model.getInOrOut());
-        viewholder.detailType.setText(model.getType());
-        viewholder.detailTime.setText(model.getTime());
-        viewholder.detailFee.setText(model.getFee());
-        viewholder.detailRemarks.setText(model.getRemarks());
 
-        return view;
+        Map<String,String> map = (Map<String,String>) getItem(position);
+        TextView title = (TextView) itemView.findViewById(R.id.itemTitle);
+        TextView detailType = (TextView) itemView.findViewById(R.id.itemDetailType);
+        TextView detailTime = (TextView) itemView.findViewById(R.id.itemDetailTime);
+        TextView detailFee = (TextView) itemView.findViewById(R.id.itemDetailFee);
+        TextView detailRemarks = (TextView) itemView.findViewById(R.id.itemDetailRemarks);
+
+        title.setText("Title:"+ map.get("ItemTitle"));
+        detailType.setText("detailType:"+ map.get("ItemDetailType"));
+        detailTime.setText("detailTime:"+ map.get("ItemDetailType"));
+        detailFee.setText("detailFee:"+ map.get("ItemDetailFee"));
+        detailRemarks.setText("detailRemarks:"+ map.get("ItemDetailRemarks"));
+
+        return itemView;
     }
-
-    class ViewHolder {
-        private TextView title;
-        private TextView detailType;
-        private TextView detailTime;
-        private TextView detailFee;
-        private TextView detailRemarks;
-    }
-
 }
+

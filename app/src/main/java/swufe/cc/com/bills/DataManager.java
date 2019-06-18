@@ -18,29 +18,44 @@ public class DataManager {
         TBNAME = MySQLiteHelper.TB_NAME;
     }
 
-    public void add(String data[]){
+    public void add(DataItem dataItem){
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("INOROUT", data[0]);
-        values.put("TYPE", data[1]);
-        values.put("TIME", data[2]);
-        values.put("FEE", data[3]);
-        values.put("REMARKS", data[4]);
+        values.put("INOROUT", dataItem.getInOrOut());
+        values.put("TYPE", dataItem.getType());
+        values.put("TIME", dataItem.getTime());
+        values.put("FEE", dataItem.getFee());
+        values.put("REMARKS", dataItem.getRemarks());
         db.insert(TBNAME, null, values);
         db.close();
     }
+
     public void deleteAll(){
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         db.delete(TBNAME,null,null);
         db.close();
     }
 
+    public void addAll(List<DataItem> list) {
+        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
+        for (DataItem item : list) {
+            ContentValues values = new ContentValues();
+            values.put("INOROUT", item.getInOrOut());
+            values.put("TYPE", item.getType());
+            values.put("TIME", item.getTime());
+            values.put("FEE", item.getFee());
+            values.put("REMARKS", item.getRemarks());
+            db.insert(TBNAME, null, values);
+        }
+        db.close();
+    }
+
     public List<DataItem> listAll(){
-        List<DataItem> rateList = null;
+        List<DataItem> dataItemList = null;
         SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
         Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
         if(cursor!=null){
-            rateList = new ArrayList<DataItem>();
+            dataItemList = new ArrayList<DataItem>();
             while(cursor.moveToNext()){
                 DataItem item = new DataItem();
                 item.setId(cursor.getInt(cursor.getColumnIndex("ID")));
@@ -49,17 +64,20 @@ public class DataManager {
                 item.setTime(cursor.getString(cursor.getColumnIndex("TIME")));
                 item.setFee(cursor.getString(cursor.getColumnIndex("FEE")));
                 item.setRemarks(cursor.getString(cursor.getColumnIndex("REMARKS")));
-                rateList.add(item);
+                dataItemList.add(item);
             }
             cursor.close();
         }
         db.close();
-        return rateList;
+        return dataItemList;
     }
-    public void delete(int id){
+
+    public void delete(int positon) {
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
-        db.delete(TBNAME, "ID=?", new String[]{String.valueOf(id)});
-        db.close();
+        Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
+        cursor.moveToPosition(positon);
+        int itemId = cursor.getInt(cursor.getColumnIndex("ID"));
+        db.delete(TBNAME, "ID=?", new String[]{itemId + ""});
     }
     public void update(DataItem item){
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();

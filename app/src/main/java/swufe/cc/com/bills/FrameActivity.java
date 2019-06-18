@@ -24,9 +24,9 @@ public class FrameActivity extends FragmentActivity {
 
         mFragments = new Fragment[3];
         fragmentManager = getSupportFragmentManager();
-        mFragments[0] = fragmentManager.findFragmentById(R.id.fragment_main);
+        mFragments[0] = fragmentManager.findFragmentById(R.id.fragment_me);
         mFragments[1] = fragmentManager.findFragmentById(R.id.fragment_func);
-        mFragments[2] = fragmentManager.findFragmentById(R.id.fragment_me);
+        mFragments[2] = fragmentManager.findFragmentById(R.id.fragment_home);
         fragmentTransaction =
                 fragmentManager.beginTransaction().hide(mFragments[0]).hide(mFragments[1]).hide(mFragments[2]);
         fragmentTransaction.show(mFragments[0]).commit();

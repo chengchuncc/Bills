@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -34,7 +35,6 @@ public class FuncFragment extends Fragment {
     private static final String[] type={"衣","食","住","行","其他"};
     private String inOrOut="",contentType="",time="",fee="",remarks="";
     private ArrayAdapter<String> adapter;
-    private static final String[] data={"","","","",""};
     private String TAG = "FuncFragment";
 
     @Override
@@ -64,15 +64,13 @@ public class FuncFragment extends Fragment {
                 fee=editTextFee.getText().toString();
                 remarks=editTextRemarks.getText().toString();
 
-                data[0] = inOrOut;
-                data[1] = contentType;
-                data[2] = time;
-                data[3] = fee;
-                data[4] = remarks;
+                final DataItem dataItem = new DataItem(inOrOut,contentType,time,fee,remarks);
+
 
                 final DataManager manager = new DataManager(getActivity());
 
-                if (data[0] == "" || data[1] == "" || TextUtils.isEmpty(editTextTime.getText()) || TextUtils.isEmpty(editTextFee.getText()) || TextUtils.isEmpty(editTextRemarks.getText())) {
+
+                if (inOrOut =="" || contentType == "" || TextUtils.isEmpty(editTextTime.getText()) || TextUtils.isEmpty(editTextFee.getText()) || TextUtils.isEmpty(editTextRemarks.getText())) {
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("提示").setMessage("当前页面有信息未填写，是否继续保存？").setPositiveButton("是", new DialogInterface.OnClickListener() {
@@ -80,20 +78,21 @@ public class FuncFragment extends Fragment {
                         public void onClick(DialogInterface dialog, int which) {
                             Log.i(TAG, "onClick: 对话框事件处理");
                             //上传数据到SQLite
-                            manager.add(data);
+                            manager.add(dataItem);
                             editTextTime.setText("");
                             editTextFee.setText("");
                             editTextRemarks.setText("");
+                            Toast.makeText(getActivity(), "保存成功1", Toast.LENGTH_SHORT).show();
                         }
                     }).setNegativeButton("否", null);
                     builder.create().show();
                 } else {
                     //上传数据到SQLite
-                    manager.add(data);
+                    manager.add(dataItem);
                     editTextTime.setText("");
                     editTextFee.setText("");
                     editTextRemarks.setText("");
-
+                    Toast.makeText(getActivity(), "保存成功2", Toast.LENGTH_SHORT).show();
                 }
             }
         });

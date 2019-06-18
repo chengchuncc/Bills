@@ -1,7 +1,7 @@
 package swufe.cc.com.bills;
 
 public class DataItem {
-    private Integer id;
+    private int id;
     private String inOrOut;
     private String type;
     private String time;
