@@ -95,7 +95,7 @@
         android:id="@+id/editText_fee"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:background="@android:drawable/edit_text"
         android:layout_alignTop="@+id/textfeeshow"
         android:layout_alignLeft="@+id/edit_text_time"

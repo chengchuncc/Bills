@@ -32,7 +32,9 @@ public class FuncFragment extends Fragment {
     private EditText editTextFee;
     private EditText editTextRemarks;
     private Button btnSave;
-    private static final String[] type={"衣","食","住","行","其他"};
+    private static String[] type={};
+    private static final String[] typeIn={"工资","生活费","投资收入","借入","其他"};
+    private static final String[] typeOut={"衣","食","住","行","其他"};
     private String inOrOut="",contentType="",time="",fee="",remarks="";
     private ArrayAdapter<String> adapter;
     private String TAG = "FuncFragment";
@@ -49,13 +51,33 @@ public class FuncFragment extends Fragment {
         mSpinner = (Spinner) view.findViewById(R.id.spinner_type);
         btnSave = (Button)view.findViewById(R.id.plan_sure);
 
+
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                selectRadioButton();
+                RadioButton rb = (RadioButton)getActivity().findViewById(radioGroup.getCheckedRadioButtonId());
+                inOrOut = rb.getText().toString();
+                if(inOrOut.equals("收入")){
+                    type = typeIn;
+                }else if(inOrOut.equals("支出")){
+                    type = typeOut;
+                }
+
+                adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, type);
+
+                //设置下拉列表的风格
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                //将adapter 添加到spinner中
+                mSpinner.setAdapter(adapter);
+
+                //添加事件Spinner事件监听
+                mSpinner.setOnItemSelectedListener(new SpinnerSelectedListener());
+
+                //设置默认值
+                mSpinner.setVisibility(View.VISIBLE);
             }
         });
-
 
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +104,7 @@ public class FuncFragment extends Fragment {
                             editTextTime.setText("");
                             editTextFee.setText("");
                             editTextRemarks.setText("");
-                            Toast.makeText(getActivity(), "保存成功1", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                         }
                     }).setNegativeButton("否", null);
                     builder.create().show();
@@ -92,25 +114,13 @@ public class FuncFragment extends Fragment {
                     editTextTime.setText("");
                     editTextFee.setText("");
                     editTextRemarks.setText("");
-                    Toast.makeText(getActivity(), "保存成功2", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "保存成功", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
 
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, type);
 
-        //设置下拉列表的风格
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //将adapter 添加到spinner中
-        mSpinner.setAdapter(adapter);
-
-        //添加事件Spinner事件监听
-        mSpinner.setOnItemSelectedListener(new SpinnerSelectedListener());
-
-        //设置默认值
-        mSpinner.setVisibility(View.VISIBLE);
 
 
         editTextTime.setOnTouchListener(new View.OnTouchListener() {
@@ -157,7 +167,6 @@ public class FuncFragment extends Fragment {
     }
 
 
-
     class SpinnerSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
@@ -167,14 +176,8 @@ public class FuncFragment extends Fragment {
 
         public void onNothingSelected(AdapterView<?> arg0) {
         }
+
     }
-
-    private void selectRadioButton() {
-        RadioButton rb = (RadioButton)getActivity().findViewById(radioGroup.getCheckedRadioButtonId());
-        inOrOut = rb.getText().toString();
-    }
-
-
 
 }
 

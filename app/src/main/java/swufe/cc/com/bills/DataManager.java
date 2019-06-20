@@ -108,6 +108,49 @@ public class DataManager {
         db.close();
         return dataItem;
     }
+    public float getIncome(){
+        float income = 0;
+        String inOrOut;
+        String fee;
+        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                inOrOut = cursor.getString(cursor.getColumnIndex("INOROUT"));
+                fee = cursor.getString(cursor.getColumnIndex("FEE"));
+                if (inOrOut.equals("收入")) {
+                    income += Float.parseFloat(fee);
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        db.close();
+        return income;
+    }
+
+    public float getOutcome(){
+        float outcome = 0;
+        String inOrOut;
+        String fee;
+        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                inOrOut = cursor.getString(cursor.getColumnIndex("INOROUT"));
+                fee = cursor.getString(cursor.getColumnIndex("FEE"));
+                if (inOrOut.equals("支出")) {
+                    outcome += Float.parseFloat(fee);
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        db.close();
+        return outcome;
+    }
 
 }
 
