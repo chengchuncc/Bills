@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/bills">
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,7 +16,7 @@
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
         android:clickable="false"
-        android:textColor="#0472f8"
+        android:textColor="@color/colorDeepGreen"
         android:layout_weight="0.00"
         android:layout_marginLeft="57dp"
         android:layout_marginStart="57dp"
@@ -26,10 +29,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="时间"
+        android:textStyle="bold"
         android:inputType="datetime"
         android:id="@+id/texttimeshow"
         android:layout_gravity="center_horizontal"
-        android:textColor="#0472f8"
+        android:textColor="@color/colorDeepGreen"
         android:layout_below="@+id/texttype"
         android:layout_toLeftOf="@+id/spinner_type"
         android:layout_toStartOf="@+id/spinner_type"
@@ -39,9 +43,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="费用"
+        android:textStyle="bold"
         android:id="@+id/textfeeshow"
         android:layout_gravity="center_horizontal"
-        android:textColor="#0472f8"
+        android:textColor="@color/colorDeepGreen"
         android:layout_marginTop="29dp"
         android:layout_below="@+id/edit_text_time"
         android:layout_toLeftOf="@+id/spinner_type"
@@ -51,9 +56,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="备注"
+        android:textStyle="bold"
         android:id="@+id/textremarksshow"
         android:layout_gravity="center_horizontal"
-        android:textColor="#0472f8"
+        android:textColor="@color/colorDeepGreen"
         android:layout_marginTop="27dp"
         android:layout_below="@+id/editText_fee"
         android:layout_toLeftOf="@+id/spinner_type"
@@ -89,7 +95,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="50dp"
         android:gravity="center"
-        android:textColor="#736bae"/>
+        android:textColor="#5e5b5b"/>
 
     <EditText
         android:id="@+id/editText_fee"
@@ -101,7 +107,7 @@
         android:layout_alignLeft="@+id/edit_text_time"
         android:layout_alignStart="@+id/edit_text_time"
         android:layout_marginRight="50dp"
-        android:textColor="#fc0303"
+        android:textColor="#5e5b5b"
         android:gravity="center"/>
     <EditText
         android:id="@+id/editText_remarks"

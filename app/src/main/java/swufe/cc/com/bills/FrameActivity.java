@@ -6,10 +6,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-public class FrameActivity extends FragmentActivity {
+public class FrameActivity extends FragmentActivity{
 
     private Fragment mFragments[];
     private RadioGroup radioGroup;
@@ -35,6 +37,7 @@ public class FrameActivity extends FragmentActivity {
         rbtFunc = (RadioButton)findViewById(R.id.radioFunc);
         rbtMe = (RadioButton)findViewById(R.id.radioMe);
         rbtHome.setBackgroundResource(R.drawable.shape3);
+
 
         radioGroup = (RadioGroup)findViewById(R.id.bottomGroup);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -102,5 +105,6 @@ public class FrameActivity extends FragmentActivity {
         //transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }
 

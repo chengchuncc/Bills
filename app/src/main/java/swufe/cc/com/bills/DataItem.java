@@ -15,7 +15,6 @@ public class DataItem {
         this.time = "";
         this.fee = "";
         this.remarks = "";
-
     }
     public DataItem(String inOrOut, String type, String time, String fee, String remarks) {
         this.inOrOut = inOrOut;
@@ -72,6 +71,7 @@ public class DataItem {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
+
 
 
 }

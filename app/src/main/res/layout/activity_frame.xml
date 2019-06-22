@@ -4,9 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
     android:orientation="vertical"
     tools:context=".FrameActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="20sp"
+        android:padding="12dp"
+        android:gravity="center"
+        android:textColor="@color/colorPrimaryWhite"
+        android:background="@color/colorPrimary"
+        />
 
     <fragment
         android:id="@+id/fragment_me"
@@ -41,25 +50,20 @@
             android:id="@+id/radioHome"
             style="@style/rg_btn_style"
             android:drawableTop="@drawable/home"
-            android:text="@string/rdo_home_label"
-            android:textSize="12sp"
-            android:background="@drawable/test"/>
+            android:text="@string/rdo_home_label" />
+
         <RadioButton
             android:id="@+id/radioFunc"
             style="@style/rg_btn_style"
             android:drawableTop="@drawable/func"
-            android:text="@string/rdo_func_label"
-            android:textSize="12sp"
-            android:background="@drawable/test"/>
+            android:text="@string/rdo_func_label"/>
 
 
         <RadioButton
             android:id="@+id/radioMe"
             style="@style/rg_btn_style"
             android:drawableTop="@drawable/me"
-            android:text="@string/rdo_me_label"
-            android:textSize="12sp"
-            android:background="@drawable/test"/>
+            android:text="@string/rdo_me_label"/>
     </RadioGroup>
 
 </LinearLayout>

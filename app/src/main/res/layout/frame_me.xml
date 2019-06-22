@@ -4,22 +4,100 @@
     android:layout_height="match_parent"
     android:layout_margin="10dp"
     android:layout_gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/bills">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="总计"
-        android:textSize="30sp" />
+        android:layout_marginTop="5dp"
+        android:paddingTop="10dp"
+        android:text="合计"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="开始时间："
+            android:textSize="20sp"
+            android:inputType="datetime"
+            android:id="@+id/starttime"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <EditText
+            android:id="@+id/start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="datetime"
+            android:hint="点击选择时间 "
+            android:enabled="true"
+            android:background="@android:drawable/edit_text"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:textColor="#5e5b5b"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/endtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:inputType="datetime"
+            android:text="结束时间："
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@android:drawable/edit_text"
+            android:enabled="true"
+            android:gravity="center"
+            android:hint="点击选择时间 "
+            android:inputType="datetime"
+            android:textColor="#5e5b5b" />
+    </LinearLayout>
+    <Button
+        android:id="@+id/cal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="统计该时间段"
+        android:layout_gravity="center"
+       />
+    <TextView
+        android:id="@+id/time_slot"
+        android:paddingTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:text="所有时间合计:"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="20sp"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center">
 
         <TextView
@@ -27,33 +105,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:text="收入："
-            android:textSize="25sp"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/tv_income"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:text="0.0"
-            android:textSize="25sp"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center">
         <TextView
             android:id="@+id/tv_title2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:text="支出："
-            android:textSize="25sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
             />
 
         <TextView
@@ -61,24 +142,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:text="0.0"
-            android:textSize="25sp"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center">
         <TextView
             android:id="@+id/tv_title3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:text="余额："
-            android:textSize="25sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"
             />
 
         <TextView
@@ -86,9 +169,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:text="0.0"
-            android:textSize="25sp"/>
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="20sp"/>
     </LinearLayout>
 
 

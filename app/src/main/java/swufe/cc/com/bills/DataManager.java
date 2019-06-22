@@ -4,8 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import java.util.Date;
 import java.util.List;
 
 public class DataManager {
@@ -30,25 +35,7 @@ public class DataManager {
         db.close();
     }
 
-    public void deleteAll(){
-        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
-        db.delete(TBNAME,null,null);
-        db.close();
-    }
 
-    public void addAll(List<DataItem> list) {
-        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
-        for (DataItem item : list) {
-            ContentValues values = new ContentValues();
-            values.put("INOROUT", item.getInOrOut());
-            values.put("TYPE", item.getType());
-            values.put("TIME", item.getTime());
-            values.put("FEE", item.getFee());
-            values.put("REMARKS", item.getRemarks());
-            db.insert(TBNAME, null, values);
-        }
-        db.close();
-    }
 
     public List<DataItem> listAll(){
         List<DataItem> dataItemList = null;
@@ -79,35 +66,6 @@ public class DataManager {
         int itemId = cursor.getInt(cursor.getColumnIndex("ID"));
         db.delete(TBNAME, "ID=?", new String[]{itemId + ""});
     }
-    public void update(DataItem item){
-        SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("inorout", item.getInOrOut());
-        values.put("type", item.getType());
-        values.put("time", item.getTime());
-        values.put("fee", item.getFee());
-        values.put("remarks", item.getRemarks());
-        db.update(TBNAME, values, "ID=?", new String[]{String.valueOf(item.getId())});
-        db.close();
-    }
-    public DataItem findById(int id){
-        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
-        Cursor cursor = db.query(TBNAME, null, "ID=?", new String[]{String.valueOf(id)}, null,
-                null, null);
-        DataItem dataItem = null;
-        if(cursor!=null && cursor.moveToFirst()){
-            dataItem = new DataItem();
-            dataItem.setId(cursor.getInt(cursor.getColumnIndex("ID")));
-            dataItem.setInOrOut(cursor.getString(cursor.getColumnIndex("INOROUT")));
-            dataItem.setType(cursor.getString(cursor.getColumnIndex("TYPE")));
-            dataItem.setTime(cursor.getString(cursor.getColumnIndex("TIME")));
-            dataItem.setFee(cursor.getString(cursor.getColumnIndex("FEE")));
-            dataItem.setRemarks(cursor.getString(cursor.getColumnIndex("REMARKS")));
-            cursor.close();
-        }
-        db.close();
-        return dataItem;
-    }
     public float getIncome(){
         float income = 0;
         String inOrOut;
@@ -117,9 +75,42 @@ public class DataManager {
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
             for (int i = 0; i < cursor.getCount(); i++) {
+
                 inOrOut = cursor.getString(cursor.getColumnIndex("INOROUT"));
                 fee = cursor.getString(cursor.getColumnIndex("FEE"));
-                if (inOrOut.equals("收入")) {
+                if (inOrOut.equals("收入") ) {
+                    income += Float.parseFloat(fee);
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        db.close();
+        return income;
+    }
+
+    public float getIncome(Date startDate, Date endDate){
+        float income = 0;
+        String time;
+        String inOrOut;
+        String fee;
+        Date date=null;
+        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                time = cursor.getString(cursor.getColumnIndex("TIME"));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    date = dateFormat.parse(time);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Log.i("这里", "getIncome: "+date+","+date.getTime());
+                inOrOut = cursor.getString(cursor.getColumnIndex("INOROUT"));
+                fee = cursor.getString(cursor.getColumnIndex("FEE"));
+                if (inOrOut.equals("收入") && date.getTime()>=startDate.getTime() && date.getTime()<=endDate.getTime()) {
                     income += Float.parseFloat(fee);
                 }
                 cursor.moveToNext();
@@ -142,6 +133,36 @@ public class DataManager {
                 inOrOut = cursor.getString(cursor.getColumnIndex("INOROUT"));
                 fee = cursor.getString(cursor.getColumnIndex("FEE"));
                 if (inOrOut.equals("支出")) {
+                    outcome += Float.parseFloat(fee);
+                }
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        db.close();
+        return outcome;
+    }
+    public float getOutcome(Date startDate, Date endDate){
+        float outcome = 0;
+        String time;
+        String inOrOut;
+        String fee;
+        Date date=null;
+        SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
+        Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            for (int i = 0; i < cursor.getCount(); i++) {
+                time = cursor.getString(cursor.getColumnIndex("TIME"));
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                try {
+                    date = dateFormat.parse(time);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                inOrOut = cursor.getString(cursor.getColumnIndex("INOROUT"));
+                fee = cursor.getString(cursor.getColumnIndex("FEE"));
+                if (inOrOut.equals("支出") && date.getTime()>=startDate.getTime() && date.getTime()<=endDate.getTime()) {
                     outcome += Float.parseFloat(fee);
                 }
                 cursor.moveToNext();
