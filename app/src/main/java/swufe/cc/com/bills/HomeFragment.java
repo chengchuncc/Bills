@@ -43,10 +43,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Button bt_cancel, bt_delete;
     private TextView tv_sum;
     private LinearLayout linearLayout;
-    private List<Map<String,String>> listItems = new ArrayList<Map<String,String>>();;//数据
-    private List<Map<String,String>> list_delete = new ArrayList<Map<String,String>>();// 需要删除的数据
-    private List<Integer> delete_position;
-    private boolean isMultiSelect = false;// 是否处于多选状态
+    private List<Map<String,String>> listItems = new ArrayList<Map<String,String>>();
+    private List<Map<String,String>> list_delete = new ArrayList<Map<String,String>>();
+    private List<Integer> delete_position = new ArrayList<>();
+    private boolean isMultiSelect = false;
 
 
     @Override
@@ -60,18 +60,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         linearLayout = (LinearLayout)view.findViewById(R.id.linearLayout);
         bt_cancel.setOnClickListener(this);
         bt_delete.setOnClickListener(this);
-        DataManager manager = new DataManager(getActivity());
-        for (DataItem dataItem : manager.listAll()) {
-            HashMap<String,String> map = new HashMap<String,String>();
-            map.put("ItemTitle",dataItem.getInOrOut());
-            map.put("ItemDetailType",dataItem.getType());
-            map.put("ItemDetailTime",dataItem.getTime());
-            map.put("ItemDetailFee","¥"+dataItem.getFee());
-            map.put("ItemDetailRemarks",dataItem.getRemarks());
-            listItems.add(map);
-        }
-            myAdapter = new MyAdapter(getContext(),listItems,NOSELECT_STATE);
-            listView.setAdapter(myAdapter);
         return view;
     }
 
@@ -120,7 +108,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             final ViewHolder viewholder;
             if(convertView == null)
             {
@@ -159,9 +147,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         if (viewholder.checkBox.isChecked()) {
                             viewholder.checkBox.setChecked(false);
                             list_delete.remove(str);
+                            delete_position.remove(position);
                         } else {
                             viewholder.checkBox.setChecked(true);
                             list_delete.add(str);
+                            delete_position.add(position);
                         }
                         tv_sum.setText("共选择了" + list_delete.size() + "项");
                     }
@@ -186,6 +176,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             private int position;
             private List<Map<String,String>> listItems;
 
+
             // 获取数据，与长按Item的position
             public onMyLongClick(int position, List<Map<String,String>> listItems) {
                 this.position = position;
@@ -197,7 +188,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             public boolean onLongClick(View v) {
                 isMultiSelect = true;
                 list_delete.clear();
-                // 添加长按Item到删除数据list中
+                delete_position.clear();
+                delete_position.add(position);
                 list_delete.add(listItems.get(position));
                 linearLayout.setVisibility(View.VISIBLE);
                 tv_sum.setText("共选择了" + list_delete.size() + "项");
@@ -217,8 +209,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             // 取消选择
             case R.id.bt_cancel:
-                isMultiSelect = false;// 退出多选模式
-                list_delete.clear();// 清楚选中的数据
+                isMultiSelect = false;
+                list_delete.clear();
+                delete_position.clear();
                 // 重新加载Adapter
                 myAdapter = new MyAdapter(getActivity(), listItems, NOSELECT_STATE);
                 listView.setAdapter(myAdapter);
@@ -229,13 +222,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.bt_delete:
                 isMultiSelect = false;
                 // 将数据从list中移除
-                for (int i = 0; i < listItems.size(); i++) {
-                    for (int j = 0; j < list_delete.size(); j++) {
-                        if (listItems.get(i).equals(list_delete.get(j))) {
-                            listItems.remove(i);
+                for (int i = 0; i < list_delete.size(); i++) {
+                    for (int j = 0; j < listItems.size(); j++) {
+                        if (listItems.get(j).equals(list_delete.get(i))) {
+                            listItems.remove(j);
+                            break;
                         }
                     }
                 }
+                // 将数据从数据库中删除
+                manager.delete(delete_position);
                 list_delete.clear();
                 // 重新加载Adapter
                 myAdapter = new MyAdapter(getActivity(), listItems, NOSELECT_STATE);
@@ -261,8 +257,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        initListView();
-        myAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -273,6 +267,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     private void initListView(){
+        listItems.clear();
         DataManager manager = new DataManager(getActivity());
         for (DataItem dataItem : manager.listAll()) {
             HashMap<String,String> map = new HashMap<String,String>();

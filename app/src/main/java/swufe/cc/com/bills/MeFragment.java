@@ -114,10 +114,14 @@ public class MeFragment extends Fragment{
                     Toast.makeText(getActivity(), "数据格式有误！", Toast.LENGTH_SHORT)
                             .show();
                 }
-                getData(startDate,endDate);
-                timeSlot.setText("从"+startTime.getText().toString()+"到"+endTime.getText().toString()+"的合计");
-                startTime.setText("");
-                endTime.setText("");
+                if(TextUtils.isEmpty(startTime.getText())||TextUtils.isEmpty(endTime.getText())){
+                    Toast.makeText(getActivity(), "请先选择时间!", Toast.LENGTH_SHORT).show();
+                }else {
+                    getData(startDate, endDate);
+                    timeSlot.setText("从" + startTime.getText().toString() + "到" + endTime.getText().toString() + "的合计");
+                    startTime.setText("");
+                    endTime.setText("");
+                }
             }
         });
 

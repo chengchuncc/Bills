@@ -59,12 +59,14 @@ public class DataManager {
         return dataItemList;
     }
 
-    public void delete(int positon) {
+    public void delete(List<Integer> list) {
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         Cursor cursor = db.query(TBNAME, null, null, null, null, null, null);
-        cursor.moveToPosition(positon);
-        int itemId = cursor.getInt(cursor.getColumnIndex("ID"));
-        db.delete(TBNAME, "ID=?", new String[]{itemId + ""});
+        for(int i :list) {
+            cursor.moveToPosition(i);
+            int itemId = cursor.getInt(cursor.getColumnIndex("ID"));
+            db.delete(TBNAME, "ID=?", new String[]{itemId + ""});
+        }
     }
     public float getIncome(){
         float income = 0;
